@@ -5,5 +5,7 @@
 }
 
 body {
-    background-color: #945CBE;
+    display: flex;
+    justify-content: center;
+    background-color: white;
 }
