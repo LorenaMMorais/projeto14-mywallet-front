@@ -1,31 +1,37 @@
-import styled from 'styled-components';
-import { useState } from 'react';
-import {useNavigate} from 'react-router-dom';
-import axios from 'axios';
+import styled from "styled-components";
+import { useState } from "react";
+import {useNavigate} from 'react-router-dom'
+import axios from "axios";
 
-export default function Login() {
+export default function Register(){
     const navigate = useNavigate();
-    const [datas, setDatas] = useState ({
+    const [datas, setDatas] = useState({
+        name: '',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
     });
 
-    async function login(){
+    async function register(){
         try{
-            await axios.post('http://localhost:5000/sign-in', datas);
-            alert('Sucesso no login');
-        }catch(error){
+            await axios.post('http://localhost:5000/sign-up', datas);
+            alert('Cadastro realizado com sucesso!');
+            navigate('/sign-in');
+        }catch (error){
+            alert('Erro ao cadastrar');
             alert(error.response.data);
         }
     }
 
-    return (
+    return(
         <Container>
             <Logo>MyWallet</Logo>
-            <Input placeholder = 'E-mail' value={datas.email} onChange={e => setDatas({...datas, email: e.target.value})}/>
-            <Input placeholder = 'Senha'value={datas.password} onChange={e => setDatas({...datas, password: e.target.value})}/>
-            <Button onClick={login} >Entrar</Button>
-            <Register onClick={() => navigate('/sign-up')} >Primeira vez? Cadastre-se!</Register>
+            <Input placeholder = 'Nome' value={datas.name} onChange={e => setDatas({...datas, name: e.target.value})} />
+            <Input placeholder = 'E-mail' value={datas.email} onChange={e => setDatas({...datas, email: e.target.value})} />
+            <Input placeholder = 'Senha'value={datas.password} onChange={e => setDatas({...datas, password: e.target.value})} />
+            <Input placeholder = 'Confirme a senha' value={datas.confirmPassword} onChange={e => setDatas({...datas, confirmPassword: e.target.value})} />
+            <Button onClick={register} >Cadastrar</Button>
+            <Login onClick={() => navigate('/sign-in')} >Já tem uma conta? Entre agora!</Login>
         </Container>
     );
 }
@@ -84,7 +90,7 @@ const Button = styled.button`
     }
 `;
 
-const Register = styled.p`
+const Login = styled.p`
     font-weight: 700;
     font-size: 15px;
     line-height: 18px;
