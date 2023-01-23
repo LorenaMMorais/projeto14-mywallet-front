@@ -1,29 +1,48 @@
 import styled from 'styled-components';
 import axios from 'axios';
+import {FaSignOutAlt} from 'react-icons/fa';
+import {BallTriangle} from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import UserContext from '../context/UserContext.js';
-import {FaSignOutAlt} from 'react-icons/fa';
 
 export default function Transactions(){
-    const [transactions, setTransactions] = useState();
     const navigate = useNavigate();
     const {user} = useContext(UserContext);
+    const [transactions, setTransactions] = useState();
+    let count = 0;
 
     useEffect(() => {
         (async() => {
             try{
-                const transactions = await axios.get('http://localhost:5000/transactions', {
-                    headers: {Authorization: `Bearer ${user.token}`}
-                });
-                setTransactions(transactions.data);
+                getData();
             }catch(error){
                 alert('Erro ao obter transações');
                 console.log(error);
             }
         })();
     }, []);
-    console.log(transactions);
+
+    async function getData() {
+        const transactions = await axios.get('http://localhost:5000/transactions', {
+            headers: {Authorization: `Bearer ${user.token}`}
+        });
+        setTransactions(transactions.data);
+    }
+
+    async function exclude(transaction) {
+        try {
+            const confirmExclude = window.confirm('Tem certeza que deseja apagar essa transação?');
+            if (confirmExclude) {
+                await axios.delete('http://localhost:5000/transactions/${transaction._id}', {
+                    headers: {Authorization: `Bearer ${user.token}`}
+                });
+                getData();
+            }
+        } catch(error) {
+            alert(error.response.data);
+        }
+    }
 
     return transactions ?(
         <Container>
@@ -34,23 +53,30 @@ export default function Transactions(){
             <Registers>
                 {transactions.length > 0 ? (
                     <Values>
-                        {transactions.map(transactions => {
-                            const {datas, description, value, type} = transaction;
+                        {transactions.map(transaction => {
+                            const {date, description, value, type} = transaction;
                             const number = parseFloat(value).toFixed(2).replace('.', ',');
-                            
+
+                            if(type === 'input'){
+                                count += parseFloat(value);
+                            } else{
+                                count -= parseFloat(value);
+                            }
+
                             return(
                                 <List>
-                                    <Group>
-                                        <Info>{datas}</Info>
-                                        <Info1>{description}</Info1>
-                                    </Group>
+                                    <Transac>
+                                        <Info>{date}</Info>
+                                        <Info1 >{description}</Info1>
+                                    </Transac>
                                     <Value color={type === 'input' ? '#03AC00' : '#C70000'}>{number}</Value>
+                                    <Button onClick={() => exclude(transaction)}>x</Button>
                                 </List>
-                            )
+                            );
                         })}
                         <Balance>
                             SALDO
-                            <Value color={'#03AC00'}>{parseFloat(15).toFixed(2).replace('.', ',')}</Value>
+                            <Value color={count > 0 ? '#03AC00' : '#C70000'}>{parseFloat(count).toFixed(2).replace('.', ',')}</Value>
                         </Balance>
                     </Values>
                 ) : (
@@ -188,7 +214,7 @@ const List = styled.div`
     justify-content: space-between;
 `;
 
-const Group = styled.div`
+const Transac = styled.div`
     display: flex;
     margin: 10px;
 `;
@@ -217,4 +243,14 @@ const Balance = styled.h1`
     line-height: 20px;
     margin-left: 10px;
     justify-content: space-between;
+`;
+
+const Button = styled.div`
+    margin-left: 10px;
+    color: #C6C6C6;
+    font-family: 'Raleway';
+    :hover {
+        color: #000000;
+        cursor: pointer;
+    }
 `;

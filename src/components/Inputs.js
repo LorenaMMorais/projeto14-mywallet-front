@@ -19,7 +19,8 @@ export default function Inputs(){
             alert('Transação concluída');
             navigate('/transactions');
         }catch(error){
-            alert(error.response.datas);
+            console.log(user);
+            alert(error);
         }
     }
 
