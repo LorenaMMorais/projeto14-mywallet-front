@@ -13,7 +13,7 @@ export default function Inputs(){
     });
     async function save(){
         try{
-            await axios.post('http://localhost:3000/transactions/inputs', datas, {
+            await axios.post('http://localhost:5000/transactions/inputs', datas, {
                 headers: {Authorization: `Bearer ${user.token}`}
             });
             alert('Transação concluída');

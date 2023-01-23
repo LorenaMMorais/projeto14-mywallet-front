@@ -14,7 +14,7 @@ export default function Outputs() {
 
     async function save() {
         try {
-            await axios.post('http://localhost:3000/transactions/outputs', datas, {
+            await axios.post('http://localhost:5000/transactions/outputs', datas, {
                 headers: {Authorization: `Bearer ${user.token}`}
             });
             alert('Transação concluída');

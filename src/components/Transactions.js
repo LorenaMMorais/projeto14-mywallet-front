@@ -13,7 +13,7 @@ export default function Transactions(){
     useEffect(() => {
         (async() => {
             try{
-                const transactions = await axios.get('http://localhost:3000/transactions', {
+                const transactions = await axios.get('http://localhost:5000/transactions', {
                     headers: {Authorization: `Bearer ${user.token}`}
                 });
                 setTransactions(transactions.data);

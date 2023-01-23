@@ -15,7 +15,7 @@ export default function Login() {
 
     async function login(){
         try{
-            await axios.post('http://localhost:5000/sign-in', datas);
+            await axios.post('http://localhost:5000/', datas);
             setUser(response.datas);
             alert('Sucesso no login');
             navigate('/transactions');
