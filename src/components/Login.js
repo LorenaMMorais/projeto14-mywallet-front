@@ -3,7 +3,9 @@ import axios from 'axios';
 import { useState, useContext } from 'react';
 import UserContext from '../context/UserContext.js';
 import {useNavigate} from 'react-router-dom';
+import dotenv from 'dotenv';
 
+dotenv.config();
 
 export default function Login() {
     const navigate = useNavigate();
@@ -15,7 +17,7 @@ export default function Login() {
 
     async function login(){
         try{
-            await axios.post('http://localhost:5000', datas);
+            await axios.post(`${process.env.REACT_APP_API_URL}/`, datas);
             setUser(datas);
             alert('Sucesso no login');
             navigate('/home');

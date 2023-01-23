@@ -3,6 +3,9 @@ import axios from 'axios';
 import {useState, useContext} from 'react';
 import {useNavigate} from 'react-router-dom';
 import UserContext from '../context/UserContext.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default function Outputs() {
     const navigate = useNavigate();
@@ -14,7 +17,7 @@ export default function Outputs() {
 
     async function save() {
         try {
-            await axios.post('http://localhost:5000/home/nova-saida', datas, {
+            await axios.post(`${process.env.REACT_APP_API_URL}/home/nova-saida`, datas, {
                 headers: {Authorization: `Bearer ${user.token}`}
             });
             alert('Transação concluída');

@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { useState } from "react";
 import {useNavigate} from 'react-router-dom'
 import axios from "axios";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default function Register(){
     const navigate = useNavigate();
@@ -14,7 +17,7 @@ export default function Register(){
 
     async function register(){
         try{
-            await axios.post('http://localhost:5000/cadastro', datas);
+            await axios.post(`${process.env.REACT_APP_API_URL}/cadastro`, datas);
             alert('Cadastro realizado com sucesso!');
             navigate('/');
         }catch (error){

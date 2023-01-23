@@ -4,6 +4,9 @@ import {FaSignOutAlt} from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import UserContext from '../context/UserContext.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default function Transactions(){
     const navigate = useNavigate();
@@ -22,7 +25,7 @@ export default function Transactions(){
     }, []);
 
     async function getData() {
-        const transactions = await axios.get('http://localhost:5000/home', {
+        const transactions = await axios.get(`${process.env.REACT_APP_API_URL}/home`, {
             headers: {Authorization: `Bearer ${user.token}`}
         });
         setTransactions(transactions.data);
@@ -32,7 +35,7 @@ export default function Transactions(){
         try {
             const confirmExclude = window.confirm('Tem certeza que deseja apagar essa transação?');
             if (confirmExclude) {
-                await axios.delete('http://localhost:5000/home/${transaction._id}', {
+                await axios.delete(`${process.env.REACT_APP_API_URL}/home/${transaction._id}`, {
                     headers: {Authorization: `Bearer ${user.token}`}
                 });
                 getData();
