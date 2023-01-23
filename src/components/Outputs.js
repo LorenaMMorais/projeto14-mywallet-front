@@ -20,7 +20,7 @@ export default function Outputs() {
             alert('Transação concluída');
             navigate('/transactions');
         } catch(error) {
-            alert(error.response.data);
+            alert(error.response.datas);
         }
     }
 

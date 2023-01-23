@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import UserContext from '../context/UserContext.js';
 import {FaSignOutAlt} from 'react-icons/fa';
 
@@ -9,11 +9,25 @@ export default function Transactions(){
     const navigate = useNavigate();
     const {user} = useContext(UserContext);
 
+    useEffect(() => {
+        (async() => {
+            try{
+                const transactions = await axios.get('http://localhost:3000/transactions', {
+                    headers: {Authorization: `Bearer ${user.token}`}
+                });
+                console.log(transactions);
+            }catch(error){
+                alert('Erro ao obter transações');
+                console.log(error);
+            }
+        })();
+    }, []);
+
     return(
         <Container>
             <Nav>
                 <H1>Olá, {user.name}</H1>
-                <Exit><FaSignOutAlt /></Exit>
+                <Exit onClick={() => navigate('/')}><FaSignOutAlt /></Exit>
             </Nav>
             <Registers>
                 <ContainerRegisters><H2>Não há registros de entrada ou saída</H2></ContainerRegisters>
