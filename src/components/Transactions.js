@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import UserContext from '../context/UserContext.js';
 import {FaSignOutAlt} from 'react-icons/fa';
 
 export default function Transactions(){
+    const [transactions, setTransactions] = useState();
     const navigate = useNavigate();
     const {user} = useContext(UserContext);
 
@@ -15,22 +16,46 @@ export default function Transactions(){
                 const transactions = await axios.get('http://localhost:3000/transactions', {
                     headers: {Authorization: `Bearer ${user.token}`}
                 });
-                console.log(transactions);
+                setTransactions(transactions.data);
             }catch(error){
                 alert('Erro ao obter transações');
                 console.log(error);
             }
         })();
     }, []);
+    console.log(transactions);
 
-    return(
+    return transactions ?(
         <Container>
             <Nav>
                 <H1>Olá, {user.name}</H1>
                 <Exit onClick={() => navigate('/')}><FaSignOutAlt /></Exit>
             </Nav>
             <Registers>
-                <ContainerRegisters><H2>Não há registros de entrada ou saída</H2></ContainerRegisters>
+                {transactions.length > 0 ? (
+                    <Values>
+                        {transactions.map(transactions => {
+                            const {datas, description, value, type} = transaction;
+                            const number = parseFloat(value).toFixed(2).replace('.', ',');
+                            
+                            return(
+                                <List>
+                                    <Group>
+                                        <Info>{datas}</Info>
+                                        <Info1>{description}</Info1>
+                                    </Group>
+                                    <Value color={type === 'input' ? '#03AC00' : '#C70000'}>{number}</Value>
+                                </List>
+                            )
+                        })}
+                        <Balance>
+                            SALDO
+                            <Value color={'#03AC00'}>{parseFloat(15).toFixed(2).replace('.', ',')}</Value>
+                        </Balance>
+                    </Values>
+                ) : (
+                    <ContainerRegisters><H2>Não há registros de entrada ou saída</H2></ContainerRegisters>
+                )}
             </Registers>
 
             <Footer>
@@ -44,7 +69,7 @@ export default function Transactions(){
                 </Transaction>
             </Footer>
         </Container>
-    );
+    ) : <p>Carregando</p>;
 }
 
 const Container = styled.div`
@@ -76,6 +101,9 @@ const Exit = styled.div`
 `;
 
 const Registers = styled.div`
+    position: absolute;
+    rigth: 25px;
+    left: 25px;
     width: 326px;
     height: 446px;
     margin:  22px 25px  0;
@@ -144,3 +172,50 @@ const P = styled.div`
     color: #FFFFFF;
     font-family: 'Raleway';
 `; 
+
+const Values = styled.div`
+    display: flex;
+    width: 100%;
+    padding: 12px;
+    flex-direction: column;
+    font-family: 'Raleway';
+`;
+
+const List = styled.div`
+    display: flex;
+    font-size: 18px;
+    line-height: 19px;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+const Group = styled.div`
+    display: flex;
+    margin: 10px;
+`;
+
+const Info = styled.p`
+    margin-rigth: 10px;
+    color: #C6C6C6;
+`;
+
+const Info1 = styled.p`
+    color #000000;
+`;
+
+const Value = styled.p`
+    font-weight: initial;
+    color: ${props => props.color};
+`;
+
+const Balance = styled.h1`
+    display: flex;
+    position: absolute;
+    width: calc(100% - 35px);
+    bottom: 20px;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 20px;
+    margin-left: 10px;
+    justify-content: space-between;
+`;
