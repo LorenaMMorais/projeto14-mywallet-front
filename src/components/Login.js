@@ -15,12 +15,12 @@ export default function Login() {
 
     async function login(){
         try{
-            await axios.post('http://localhost:5000/', datas);
-            setUser(response.datas);
+            await axios.post('http://localhost:5000', datas);
+            setUser(datas);
             alert('Sucesso no login');
             navigate('/transactions');
         }catch(error){
-            alert(error.response.data);
+            alert(error.response.datas);
         }
     }
 
