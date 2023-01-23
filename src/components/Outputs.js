@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import {useState} from 'react';
+import {useState, useContext} from 'react';
 import {useNavigate} from 'react-router-dom';
+import UserContext from '../context/UserContext.js';
 
 export default function Outputs() {
     const navigate = useNavigate();
+    const {user} = useContext(UserContext);
     const [datas, setDatas] = useState({
         value: '',
         description: ''
@@ -12,8 +14,10 @@ export default function Outputs() {
 
     async function save() {
         try {
-            await axios.post('http://localhost:3000/transactions/outputs', datas);
-            alert('Saída adicionada');
+            await axios.post('http://localhost:3000/transactions/outputs', datas, {
+                headers: {Authorization: `Bearer ${user.token}`}
+            });
+            alert('Transação concluída');
             navigate('/transactions');
         } catch(error) {
             alert(error.response.data);
@@ -24,8 +28,8 @@ export default function Outputs() {
         <Container>
             <H1>Nova saída</H1>
 
-            <Input placeholder='Valor' value={data.value} onChange={e => setDatas({...datas, value: e.target.value})}/>
-            <Input placeholder='Descrição' value={data.description} onChange={e => setDatas({...datas, description: e.target.value})}/>
+            <Input placeholder='Valor' value={datas.value} onChange={e => setDatas({...datas, value: e.target.value})}/>
+            <Input placeholder='Descrição' value={datas.description} onChange={e => setDatas({...datas, description: e.target.value})}/>
 
             <Button onClick={save}>Salvar saída</Button>
         </Container>
