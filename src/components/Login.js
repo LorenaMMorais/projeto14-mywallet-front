@@ -18,7 +18,7 @@ export default function Login() {
             await axios.post('http://localhost:5000', datas);
             setUser(datas);
             alert('Sucesso no login');
-            navigate('/transactions');
+            navigate('/home');
         }catch(error){
             alert(error.response.datas);
         }
@@ -30,7 +30,7 @@ export default function Login() {
             <Input placeholder = 'E-mail' value={datas.email} onChange={e => setDatas({...datas, email: e.target.value})}/>
             <Input placeholder = 'Senha'value={datas.password} onChange={e => setDatas({...datas, password: e.target.value})}/>
             <Button onClick={login} >Entrar</Button>
-            <Register onClick={() => navigate('/sign-up')} >Primeira vez? Cadastre-se!</Register>
+            <Register onClick={() => navigate('/cadastro')} >Primeira vez? Cadastre-se!</Register>
         </Container>
     );
 }

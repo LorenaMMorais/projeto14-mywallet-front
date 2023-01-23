@@ -14,11 +14,11 @@ export default function Outputs() {
 
     async function save() {
         try {
-            await axios.post('http://localhost:5000/transactions/outputs', datas, {
+            await axios.post('http://localhost:5000/home/nova-saida', datas, {
                 headers: {Authorization: `Bearer ${user.token}`}
             });
             alert('Transação concluída');
-            navigate('/transactions');
+            navigate('/home');
         } catch(error) {
             alert(error.response.datas);
         }

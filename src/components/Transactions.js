@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import axios from 'axios';
 import {FaSignOutAlt} from 'react-icons/fa';
-import {BallTriangle} from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import UserContext from '../context/UserContext.js';
@@ -17,14 +16,14 @@ export default function Transactions(){
             try{
                 getData();
             }catch(error){
-                alert('Erro ao obter transações');
+                alert('Erro ao obter transações', error);
                 console.log(error);
             }
         })();
     }, []);
 
     async function getData() {
-        const transactions = await axios.get('http://localhost:5000/transactions', {
+        const transactions = await axios.get('http://localhost:5000/home', {
             headers: {Authorization: `Bearer ${user.token}`}
         });
         setTransactions(transactions.data);
@@ -34,7 +33,7 @@ export default function Transactions(){
         try {
             const confirmExclude = window.confirm('Tem certeza que deseja apagar essa transação?');
             if (confirmExclude) {
-                await axios.delete('http://localhost:5000/transactions/${transaction._id}', {
+                await axios.delete('http://localhost:5000/home/${transaction._id}', {
                     headers: {Authorization: `Bearer ${user.token}`}
                 });
                 getData();

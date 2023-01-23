@@ -14,7 +14,7 @@ export default function Register(){
 
     async function register(){
         try{
-            await axios.post('http://localhost:5000/sign-up', datas);
+            await axios.post('http://localhost:5000/cadastro', datas);
             alert('Cadastro realizado com sucesso!');
             navigate('/');
         }catch (error){

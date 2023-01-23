@@ -15,10 +15,10 @@ export default function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={ <Login/> } />
-                    <Route path='/sign-up' element={ <Register/> } />
-                    <Route path='/transactions' element={ <Transactions /> } />
-                    <Route path='/transactions/inputs' element={ <Inputs /> } />
-                    <Route path='/transactions/outputs' element={ <Outputs /> } />
+                    <Route path='/cadastro' element={ <Register/> } />
+                    <Route path='/home' element={ <Transactions /> } />
+                    <Route path='/home/nova-entrada' element={ <Inputs /> } />
+                    <Route path='/home/nova-saida' element={ <Outputs /> } />
                 </Routes>
             </BrowserRouter>
         </UserContext.Provider>
