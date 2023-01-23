@@ -101,7 +101,6 @@ const Exit = styled.div`
 `;
 
 const Registers = styled.div`
-    position: absolute;
     rigth: 25px;
     left: 25px;
     width: 326px;
