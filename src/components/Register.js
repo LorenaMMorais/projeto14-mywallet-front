@@ -18,19 +18,18 @@ export default function Register(){
             alert('Cadastro realizado com sucesso!');
             navigate('/');
         }catch (error){
-            alert('Erro ao cadastrar');
-            alert(error.response.data);
+            alert('Erro ao cadastrar', error);
         }
     }
 
     return(
         <Container>
             <Logo>MyWallet</Logo>
-            <Input placeholder = 'Nome' value={datas.name} onChange={e => setDatas({...datas, name: e.target.value})} />
-            <Input placeholder = 'E-mail' value={datas.email} onChange={e => setDatas({...datas, email: e.target.value})} />
-            <Input placeholder = 'Senha'value={datas.password} onChange={e => setDatas({...datas, password: e.target.value})} />
-            <Input placeholder = 'Confirme a senha' value={datas.confirmPassword} onChange={e => setDatas({...datas, confirmPassword: e.target.value})} />
-            <Button onClick={register} >Cadastrar</Button>
+            <Input data-test="name" placeholder = 'Nome' value={datas.name} onChange={e => setDatas({...datas, name: e.target.value})} />
+            <Input data-test="email" placeholder = 'E-mail' value={datas.email} onChange={e => setDatas({...datas, email: e.target.value})} />
+            <Input data-test="password" placeholder = 'Senha'value={datas.password} onChange={e => setDatas({...datas, password: e.target.value})} />
+            <Input data-test="confirmPassword" placeholder = 'Confirme a senha' value={datas.confirmPassword} onChange={e => setDatas({...datas, confirmPassword: e.target.value})} />
+            <Button data-test="sign-up-submit" onClick={register} >Cadastrar</Button>
             <Login onClick={() => navigate('/')} >Já tem uma conta? Entre agora!</Login>
         </Container>
     );

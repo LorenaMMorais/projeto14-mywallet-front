@@ -27,9 +27,9 @@ export default function Login() {
     return (
         <Container>
             <Logo>MyWallet</Logo>
-            <Input placeholder = 'E-mail' value={datas.email} onChange={e => setDatas({...datas, email: e.target.value})}/>
-            <Input placeholder = 'Senha'value={datas.password} onChange={e => setDatas({...datas, password: e.target.value})}/>
-            <Button onClick={login} >Entrar</Button>
+            <Input placeholder = 'E-mail' data-test="email" value={datas.email} onChange={e => setDatas({...datas, email: e.target.value})}/>
+            <Input placeholder = 'Senha' data-test="password" value={datas.password} onChange={e => setDatas({...datas, password: e.target.value})}/>
+            <Button data-test="sihn-in-submit" onClick={login} >Entrar</Button>
             <Register onClick={() => navigate('/cadastro')} >Primeira vez? Cadastre-se!</Register>
         </Container>
     );

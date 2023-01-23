@@ -19,7 +19,6 @@ export default function Inputs(){
             alert('Transação concluída');
             navigate('/home');
         }catch(error){
-            console.log(user);
             alert(error);
         }
     }
@@ -27,9 +26,9 @@ export default function Inputs(){
     return(
         <Container>
             <H1>Nova entrada</H1>
-            <Input placeholder = 'Valor' value = {datas.value} onChange = {e => setDatas({...datas, value: e.target.value})}/>
-            <Input placeholder = 'Descrição' value = {datas.description} onChange = {e => setDatas({...datas, description: e.target.value})}/>
-            <Button onClick = {save}>Salvar entrada</Button>
+            <Input data-test="registry-amount-input" placeholder = 'Valor' value = {datas.value} onChange = {e => setDatas({...datas, value: e.target.value})}/>
+            <Input data-test="registry-name-input" placeholder = 'Descrição' value = {datas.description} onChange = {e => setDatas({...datas, description: e.target.value})}/>
+            <Button data-test="registry-save" onClick = {save}>Salvar entrada</Button>
         </Container>
     )
 }

@@ -11,13 +11,12 @@ export default function Transactions(){
     const [transactions, setTransactions] = useState();
     let count = 0;
 
-    useEffect(() => {
-        (async() => {
+    useEffect(() => {( 
+        async() => {
             try{
                 getData();
             }catch(error){
                 alert('Erro ao obter transações', error);
-                console.log(error);
             }
         })();
     }, []);
@@ -46,8 +45,8 @@ export default function Transactions(){
     return transactions ?(
         <Container>
             <Nav>
-                <H1>Olá, {user.name}</H1>
-                <Exit onClick={() => navigate('/')}><FaSignOutAlt /></Exit>
+                <H1 data-test="user-name" >Olá, {user.name}</H1>
+                <Exit data-test="logout" onClick={() => navigate('/')}><FaSignOutAlt /></Exit>
             </Nav>
             <Registers>
                 {transactions.length > 0 ? (
@@ -66,16 +65,16 @@ export default function Transactions(){
                                 <List>
                                     <Transac>
                                         <Info>{date}</Info>
-                                        <Info1 >{description}</Info1>
+                                        <Info1 data-test="registry-name" >{description}</Info1>
                                     </Transac>
-                                    <Value color={type === 'input' ? '#03AC00' : '#C70000'}>{number}</Value>
-                                    <Button onClick={() => exclude(transaction)}>x</Button>
+                                    <Value data-test="registry-amount" color={type === 'input' ? '#03AC00' : '#C70000'}>{number}</Value>
+                                    <Button data-test="registry-delete" onClick={() => exclude(transaction)}>x</Button>
                                 </List>
                             );
                         })}
                         <Balance>
                             SALDO
-                            <Value color={count > 0 ? '#03AC00' : '#C70000'}>{parseFloat(count).toFixed(2).replace('.', ',')}</Value>
+                            <Value data-test="total-amount" color={count > 0 ? '#03AC00' : '#C70000'}>{parseFloat(count).toFixed(2).replace('.', ',')}</Value>
                         </Balance>
                     </Values>
                 ) : (
@@ -84,11 +83,11 @@ export default function Transactions(){
             </Registers>
 
             <Footer>
-                <Transaction onClick={() => navigate('/transactions/inputs')}>
+                <Transaction data-test="new-income" onClick={() => navigate('/transactions/inputs')}>
                     <Icon>+</Icon>
                     <P>Nova entrada</P>
                 </Transaction>
-                <Transaction onClick={() => navigate('/transactions/outputs')}>
+                <Transaction data-test="new-expense" onClick={() => navigate('/transactions/outputs')}>
                     <Icon> - </Icon>
                     <P>Nova saída</P>
                 </Transaction>
